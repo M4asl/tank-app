@@ -17,10 +17,6 @@ connectDB();
 
 const app = express();
 
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
-
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,6 +31,12 @@ app.options("*", cors());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tanks", tankRoutes);
+
+app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+);
 
 app.use(dbErrorHandler);
 
