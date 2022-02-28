@@ -32,6 +32,7 @@ app.options("*", cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/tanks", tankRoutes);
 
+const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "/frontend/build")));
 
 app.get("*", (req, res) =>
