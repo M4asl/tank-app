@@ -6,7 +6,6 @@ const compress = require("compression");
 const cors = require("cors");
 const helmet = require("helmet");
 const dotenv = require("dotenv");
-const morgan = require("morgan");
 const dbErrorHandler = require("./helpers/dbErrorHandler");
 const authRoutes = require("./routes/authRoutes.js");
 const tankRoutes = require("./routes/tankRoutes.js");
@@ -32,12 +31,12 @@ app.options("*", cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/tanks", tankRoutes);
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "/frontend/build")));
-
-app.get("*", (req, res) =>
-  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
-);
+if (process.env.NODE_ENV) {
+  app.use(express.static(path.resolve(process.cwd(), "frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(process.cwd(), "frontend/build/index.html"));
+  });
+}
 
 app.use(dbErrorHandler);
 
