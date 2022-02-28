@@ -80,7 +80,7 @@ const CreateTank = ({ history, location, match }) => {
       !values.mileage ||
       !values.armorFront ||
       !values.armorSide ||
-      values.armorBack ||
+      !values.armorBack ||
       !vintage ||
       !dateInCountry
     ) {
